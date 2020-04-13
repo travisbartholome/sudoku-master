@@ -16,7 +16,7 @@ module interfaceController (
 	currentRow, currentNum, noWrite,
 	
 	// memory interface I/Os
-	RomAddr, RomDat, RamAddr, RamDat, RamWriteBit,
+	RamAddr, RamDat, RamWriteBit,
 
 	// system clock and reset
 	CLK, RST);
@@ -42,28 +42,17 @@ module interfaceController (
 	reg [3:0] currentNum;
 
 
-	//-----Memory interfaces----
-	// There are two memories used here, a ROM that stores an initial
-	// board config and a RAM that stores the current status of the game.
+	//-----Memory interface----
+	// The current status of the game is stored in a RAM with 4 20-bit words.
+	// Each word represents one row of the board. The uppermost 4 bits indicate
+	// whether each following number is write-protected (i.e. 0100 indicates that
+	// the number in the second column of the row is write-protected). The lower
+	// 16 bits represent four 4-bit hex numbers (0=blank) in each column of the row.
 	//
-	// The ROM contains FIXME 20-bit words. Each word defines the initial
-	// configuration of one row of the game; the four highest bits define
-	// whether each of the following numbers is write-protected (1=yes,
-	// e.g. if we have 0100... that means only the second 4-bit number should
-	// be write-protected).
+	// example: word 0x41200 represents row 1 2 _ _, where the 1 is user-entered and the 
+	// 2 was present on game start and is write-protected, and the other two columns are blank.
 	//
-	// The RAM contains 4 16-bit words which define the current status of
-	// the game. Its values are loaded from the ROM on game start.
-
-	// ROM read address
-	output [3:0] RomAddr;
-	reg [3:0] RomAddr;
-	// Data read from ROM
-	input [19:0] RomDat;
-	// write-protect bits from ROM
-	wire [3:0] writeProtect = RomDat[19:16];
-	// number data from ROM
-	wire [15:0] storedConfig = RomDat[15:0];
+	// The RAM is initialized from a .mif file on startup.
 
 	// RAM R/W address, selects the game row
 	output [1:0] RamAddr;
@@ -72,17 +61,21 @@ module interfaceController (
 	output RamWriteBit;
 	reg RamWriteBit;
 	// Data read from RAM
-	input [15:0] RamDat;
+	input [19:0] RamDat;
+	// split out write protect bits and data
+	wire [3:0] writeProtect = RamDat[19:16];
+	assign currentRow = RamDat [15:0];
 	// buffer reg because we have to write a whole word back into RAM,
 	// but we only want to change 4 bits of the word
-	reg [15:0] RamDatReg;
+	reg [19:0] RamDatReg;
 
 	// instantiate RAM module
 	// RAM module is generated from a Quartus IP core
+	// requires altera_mf library for simulation/synthesis
 	sudokuRAM RAM (
 		.address(RamAddr),
 		.clock(CLK),
-		.data(RamDatReg), // input data
+		.data(RamDatReg), // input data (buffer reg)
 		.wren(RamWriteBit),
 		.q(RamDat)); // output data
 
@@ -91,7 +84,6 @@ module interfaceController (
 		// synchronize RamDat buffer reg
 		RamDatReg <= RamDat;
 		if (RST) begin // positive-logic reset
-			RomAddr <= 0;
 			RamAddr <= 0;
 			currentNum <= 0;
 			RamWriteBit <= 0;
@@ -109,8 +101,8 @@ module interfaceController (
 					'h8: ramDatReg[15:12] <= userNum;
 					default: ramDatReg <= ramDatReg;
 				endcase
-				// only write if this loc is not write protected
-				RamWriteBit <= currentNum & !writeProtect;
+				// only write if current loc is not write protected
+				RamWriteBit <= (currentNum & !writeProtect) ? 1:0;
 			end
 			else begin
 				RamWriteBit <= 0;
