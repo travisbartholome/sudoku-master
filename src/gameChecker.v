@@ -45,19 +45,24 @@ module gameChecker(
   reg gameComplete;
   
   // ~~~~~ Game checker logic ~~~~~
+
+  reg [3:0] rowCorrect = 4'b0000;
   
-  reg [3:0] rowCorrect;
+  wire [3:0] digit1Decoded;
+  wire [3:0] digit2Decoded;
+  wire [3:0] digit3Decoded;
+  wire [3:0] digit4Decoded;
   
-  digitChecker digit1Check(digit1, rowCorrect);
-  digitChecker digit2Check(digit2, rowCorrect);
-  digitChecker digit3Check(digit3, rowCorrect);
-  digitChecker digit4Check(digit4, rowCorrect);
+  digitDecoder digit1Check(digit1, digit1Decoded);
+  digitDecoder digit2Check(digit2, digit2Decoded);
+  digitDecoder digit3Check(digit3, digit3Decoded);
+  digitDecoder digit4Check(digit4, digit4Decoded);
   
   // TODO: game checker logic
   
   // TODO: should this be an every-clock-cycle thing? or is that too much?
   always @ (posedge CLK) begin
-    rowCorrect = 4'b0000;
+    rowCorrect = digit1Decoded | digit2Decoded | digit3Decoded | digit4Decoded;
     
     // Check one row
     if (rowCorrect == 4'b1111) begin
