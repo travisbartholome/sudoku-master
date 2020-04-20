@@ -50,12 +50,12 @@ module sudokuRAM (
 	input	[1:0]  address_a;
 	input	[1:0]  address_b;
 	input	  clock;
-	input	[19:0]  data_a;
-	input	[19:0]  data_b;
+	input	[23:0]  data_a;
+	input	[23:0]  data_b;
 	input	  wren_a;
 	input	  wren_b;
-	output	[19:0]  q_a;
-	output	[19:0]  q_b;
+	output	[23:0]  q_a;
+	output	[23:0]  q_b;
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_off
 `endif
@@ -66,10 +66,10 @@ module sudokuRAM (
 // synopsys translate_on
 `endif
 
-	wire [19:0] sub_wire0;
-	wire [19:0] sub_wire1;
-	wire [19:0] q_a = sub_wire0[19:0];
-	wire [19:0] q_b = sub_wire1[19:0];
+	wire [23:0] sub_wire0;
+	wire [23:0] sub_wire1;
+	wire [23:0] q_a = sub_wire0[23:0];
+	wire [23:0] q_b = sub_wire1[23:0];
 
 	altsyncram	altsyncram_component (
 				.address_a (address_a),
@@ -105,8 +105,8 @@ module sudokuRAM (
 		altsyncram_component.init_file = "../../Users/George/Documents/addx/sudoku-master/src/sudoku4x4.mif",
 		altsyncram_component.intended_device_family = "Cyclone IV E",
 		altsyncram_component.lpm_type = "altsyncram",
-		altsyncram_component.numwords_a = 3,
-		altsyncram_component.numwords_b = 3,
+		altsyncram_component.numwords_a = 4,
+		altsyncram_component.numwords_b = 4,
 		altsyncram_component.operation_mode = "BIDIR_DUAL_PORT",
 		altsyncram_component.outdata_aclr_a = "NONE",
 		altsyncram_component.outdata_aclr_b = "NONE",
@@ -118,8 +118,8 @@ module sudokuRAM (
 		altsyncram_component.read_during_write_mode_port_b = "NEW_DATA_WITH_NBE_READ",
 		altsyncram_component.widthad_a = 2,
 		altsyncram_component.widthad_b = 2,
-		altsyncram_component.width_a = 20,
-		altsyncram_component.width_b = 20,
+		altsyncram_component.width_a = 24,
+		altsyncram_component.width_b = 24,
 		altsyncram_component.width_byteena_a = 1,
 		altsyncram_component.width_byteena_b = 1,
 		altsyncram_component.wrcontrol_wraddress_reg_b = "CLOCK0";
@@ -160,7 +160,7 @@ endmodule
 // Retrieval info: PRIVATE: JTAG_ENABLED NUMERIC "0"
 // Retrieval info: PRIVATE: JTAG_ID STRING "NONE"
 // Retrieval info: PRIVATE: MAXIMUM_DEPTH NUMERIC "0"
-// Retrieval info: PRIVATE: MEMSIZE NUMERIC "60"
+// Retrieval info: PRIVATE: MEMSIZE NUMERIC "96"
 // Retrieval info: PRIVATE: MEM_IN_BITS NUMERIC "1"
 // Retrieval info: PRIVATE: MIFfilename STRING "../../Users/George/Documents/addx/sudoku-master/src/sudoku4x4.mif"
 // Retrieval info: PRIVATE: OPERATION_MODE NUMERIC "3"
@@ -180,10 +180,10 @@ endmodule
 // Retrieval info: PRIVATE: USE_DIFF_CLKEN NUMERIC "0"
 // Retrieval info: PRIVATE: UseDPRAM NUMERIC "1"
 // Retrieval info: PRIVATE: VarWidth NUMERIC "0"
-// Retrieval info: PRIVATE: WIDTH_READ_A NUMERIC "20"
-// Retrieval info: PRIVATE: WIDTH_READ_B NUMERIC "20"
-// Retrieval info: PRIVATE: WIDTH_WRITE_A NUMERIC "20"
-// Retrieval info: PRIVATE: WIDTH_WRITE_B NUMERIC "20"
+// Retrieval info: PRIVATE: WIDTH_READ_A NUMERIC "24"
+// Retrieval info: PRIVATE: WIDTH_READ_B NUMERIC "24"
+// Retrieval info: PRIVATE: WIDTH_WRITE_A NUMERIC "24"
+// Retrieval info: PRIVATE: WIDTH_WRITE_B NUMERIC "24"
 // Retrieval info: PRIVATE: WRADDR_ACLR_B NUMERIC "0"
 // Retrieval info: PRIVATE: WRADDR_REG_B NUMERIC "1"
 // Retrieval info: PRIVATE: WRCTRL_ACLR_B NUMERIC "0"
@@ -199,8 +199,8 @@ endmodule
 // Retrieval info: CONSTANT: INIT_FILE STRING "../../Users/George/Documents/addx/sudoku-master/src/sudoku4x4.mif"
 // Retrieval info: CONSTANT: INTENDED_DEVICE_FAMILY STRING "Cyclone IV E"
 // Retrieval info: CONSTANT: LPM_TYPE STRING "altsyncram"
-// Retrieval info: CONSTANT: NUMWORDS_A NUMERIC "3"
-// Retrieval info: CONSTANT: NUMWORDS_B NUMERIC "3"
+// Retrieval info: CONSTANT: NUMWORDS_A NUMERIC "4"
+// Retrieval info: CONSTANT: NUMWORDS_B NUMERIC "4"
 // Retrieval info: CONSTANT: OPERATION_MODE STRING "BIDIR_DUAL_PORT"
 // Retrieval info: CONSTANT: OUTDATA_ACLR_A STRING "NONE"
 // Retrieval info: CONSTANT: OUTDATA_ACLR_B STRING "NONE"
@@ -212,29 +212,29 @@ endmodule
 // Retrieval info: CONSTANT: READ_DURING_WRITE_MODE_PORT_B STRING "NEW_DATA_WITH_NBE_READ"
 // Retrieval info: CONSTANT: WIDTHAD_A NUMERIC "2"
 // Retrieval info: CONSTANT: WIDTHAD_B NUMERIC "2"
-// Retrieval info: CONSTANT: WIDTH_A NUMERIC "20"
-// Retrieval info: CONSTANT: WIDTH_B NUMERIC "20"
+// Retrieval info: CONSTANT: WIDTH_A NUMERIC "24"
+// Retrieval info: CONSTANT: WIDTH_B NUMERIC "24"
 // Retrieval info: CONSTANT: WIDTH_BYTEENA_A NUMERIC "1"
 // Retrieval info: CONSTANT: WIDTH_BYTEENA_B NUMERIC "1"
 // Retrieval info: CONSTANT: WRCONTROL_WRADDRESS_REG_B STRING "CLOCK0"
 // Retrieval info: USED_PORT: address_a 0 0 2 0 INPUT NODEFVAL "address_a[1..0]"
 // Retrieval info: USED_PORT: address_b 0 0 2 0 INPUT NODEFVAL "address_b[1..0]"
 // Retrieval info: USED_PORT: clock 0 0 0 0 INPUT VCC "clock"
-// Retrieval info: USED_PORT: data_a 0 0 20 0 INPUT NODEFVAL "data_a[19..0]"
-// Retrieval info: USED_PORT: data_b 0 0 20 0 INPUT NODEFVAL "data_b[19..0]"
-// Retrieval info: USED_PORT: q_a 0 0 20 0 OUTPUT NODEFVAL "q_a[19..0]"
-// Retrieval info: USED_PORT: q_b 0 0 20 0 OUTPUT NODEFVAL "q_b[19..0]"
+// Retrieval info: USED_PORT: data_a 0 0 24 0 INPUT NODEFVAL "data_a[23..0]"
+// Retrieval info: USED_PORT: data_b 0 0 24 0 INPUT NODEFVAL "data_b[23..0]"
+// Retrieval info: USED_PORT: q_a 0 0 24 0 OUTPUT NODEFVAL "q_a[23..0]"
+// Retrieval info: USED_PORT: q_b 0 0 24 0 OUTPUT NODEFVAL "q_b[23..0]"
 // Retrieval info: USED_PORT: wren_a 0 0 0 0 INPUT GND "wren_a"
 // Retrieval info: USED_PORT: wren_b 0 0 0 0 INPUT GND "wren_b"
 // Retrieval info: CONNECT: @address_a 0 0 2 0 address_a 0 0 2 0
 // Retrieval info: CONNECT: @address_b 0 0 2 0 address_b 0 0 2 0
 // Retrieval info: CONNECT: @clock0 0 0 0 0 clock 0 0 0 0
-// Retrieval info: CONNECT: @data_a 0 0 20 0 data_a 0 0 20 0
-// Retrieval info: CONNECT: @data_b 0 0 20 0 data_b 0 0 20 0
+// Retrieval info: CONNECT: @data_a 0 0 24 0 data_a 0 0 24 0
+// Retrieval info: CONNECT: @data_b 0 0 24 0 data_b 0 0 24 0
 // Retrieval info: CONNECT: @wren_a 0 0 0 0 wren_a 0 0 0 0
 // Retrieval info: CONNECT: @wren_b 0 0 0 0 wren_b 0 0 0 0
-// Retrieval info: CONNECT: q_a 0 0 20 0 @q_a 0 0 20 0
-// Retrieval info: CONNECT: q_b 0 0 20 0 @q_b 0 0 20 0
+// Retrieval info: CONNECT: q_a 0 0 24 0 @q_a 0 0 24 0
+// Retrieval info: CONNECT: q_b 0 0 24 0 @q_b 0 0 24 0
 // Retrieval info: GEN_FILE: TYPE_NORMAL sudokuRAM.v TRUE
 // Retrieval info: GEN_FILE: TYPE_NORMAL sudokuRAM.inc FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL sudokuRAM.cmp FALSE
