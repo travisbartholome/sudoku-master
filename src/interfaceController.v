@@ -16,7 +16,7 @@ module interfaceController (
 	currentRow, currentNum, noWrite,
 	
 	// memory interface I/Os
-	RamAddr, RamDat, RamWriteBit,
+	RamAddr, RamDat, RamWriteBit, RamWriteBuf,
 
 	// system clock and reset
 	CLK, RST);
@@ -43,16 +43,15 @@ module interfaceController (
 
 
 	//-----Memory interface----
-	// The current status of the game is stored in a RAM with 4 20-bit words.
+	// The current status of the game is stored in a RAM with 4 24-bit words.
 	// Each word represents one row of the board. The uppermost 4 bits indicate
 	// whether each following number is write-protected (i.e. 0100 indicates that
-	// the number in the second column of the row is write-protected). The lower
+	// the number in the second column of the row is write-protected). The next 4 bits
+	// indicate whether an entry is blank (1=blank). The remaining
 	// 16 bits represent four 4-bit hex numbers (0=blank) in each column of the row.
 	//
-	// example: word 0x41200 represents row 1 2 _ _, where the 1 is user-entered and the 
+	// example: word 0x431200 represents row 1 2 _ _, where the 1 is user-entered and the 
 	// 2 was present on game start and is write-protected, and the other two columns are blank.
-	//
-	// The RAM is initialized from a .mif file on startup.
 
 	// RAM R/W address, selects the game row
 	output [1:0] RamAddr;
@@ -62,27 +61,20 @@ module interfaceController (
 	reg RamWriteBit;
 	// Data read from RAM
 	input [19:0] RamDat;
-	// split out write protect bits and data
-	wire [3:0] writeProtect = RamDat[19:16];
+	// split out write protect bits and blank indicators from data
+	wire [3:0] writeProtect = RamDat[23:20];
+	wire [3:0] blankInd = RamDat[19:16];
 	assign currentRow = RamDat [15:0];
-	// buffer reg because we have to write a whole word back into RAM,
+	// RAM write buffer because we have to write a whole word back into RAM,
 	// but we only want to change 4 bits of the word
-	reg [19:0] RamDatReg;
+	output [19:0] RamWriteBuf;
+	reg [19:0] RamWriteBuf;
 
-	// instantiate RAM module
-	// RAM module is generated from a Quartus IP core
-	// requires altera_mf library for simulation/synthesis
-	sudokuRAM RAM (
-		.address(RamAddr),
-		.clock(CLK),
-		.data(RamDatReg), // input data (buffer reg)
-		.wren(RamWriteBit),
-		.q(RamDat)); // output data
 
 	// sequential logic for moving through stored values and writing new ones
 	always @(posedge CLK) begin
 		// synchronize RamDat buffer reg
-		RamDatReg <= RamDat;
+		RamWriteBuf <= RamDat;
 		if (RST) begin // positive-logic reset
 			RamAddr <= 0;
 			currentNum <= 0;
@@ -95,14 +87,20 @@ module interfaceController (
 			if (writeBit) begin
 				// modify relevant bits of buffer reg
 				case (currentNum)
-					'h0: ramDatReg[3:0] <= userNum;
-					'h2: ramDatReg[7:4] <= userNum;
-					'h4: ramDatReg[11:8] <= userNum;
-					'h8: ramDatReg[15:12] <= userNum;
+					'h0: ramWriteBuf[3:0] <= userNum;
+					'h2: ramWriteBuf[7:4] <= userNum;
+					'h4: ramWriteBuf[11:8] <= userNum;
+					'h8: ramWriteBuf[15:12] <= userNum;
 					default: ramDatReg <= ramDatReg;
 				endcase
 				// only write if current loc is not write protected
-				RamWriteBit <= (currentNum & !writeProtect) ? 1:0;
+				if (currentNum & !writeProtect) begin
+					RamWriteBit <= 1;
+					RamWriteBuf[19:16] <= blankInd & ~currentNum;
+				end
+				else begin
+					RamWriteBit <= 0;
+				end
 			end
 			else begin
 				RamWriteBit <= 0;
