@@ -4,7 +4,7 @@
 
 `timescale 1ns/100ps
 
-tb_interfaceController;
+module tb_interfaceController;
 
 	// navigation buttons & R/W bit
 	reg upButton, downButton, leftButton, rightButton, writeBit;
@@ -41,7 +41,7 @@ tb_interfaceController;
 		.address_a(RamAddr),
 		.data_a(RamDatOut),
 		.wren_a(RamWriteBit),
-		.q_a(RamDatIn)
+		.q_a(RamDatIn),
 		.address_b(), .data_b(), .wren_b(), .q_b());
 
 	// instat test module
@@ -58,7 +58,7 @@ tb_interfaceController;
 		.RamAddr(RamAddr),
 		.RamDat(RamDatIn),
 		.RamWriteBuf(RamDatOut),
-		.RamWriteBit(RamWriteBit)
+		.RamWriteBit(RamWriteBit),
 		.CLK(CLK), .RST(RST));
 
 	// 50 MHz clock

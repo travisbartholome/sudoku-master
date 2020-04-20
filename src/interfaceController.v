@@ -28,18 +28,20 @@ module interfaceController (
 	// hex digit to be written into selected location
 	input [3:0] userNum;
 	// buttons to navigate the board
-	input upButton, dnButton, leftButton, rightButton;
+	input upButton, downButton, leftButton, rightButton;
 	// bit indicating that userNum should be written to selected location
 	input writeBit;
 
 
 	//-----Display output-----
 	// current row to be displayed to the user (4 hex digits)
-	// tied to output of RAM
 	output [15:0] currentRow;
 	// current selected digit in the row (as a bit), tells display decoder which to blink
 	output [3:0] currentNum;
 	reg [3:0] currentNum;
+	// indicator that the current position cannot be written to
+	output noWrite;
+	reg noWrite;
 
 
 	//-----Memory interface----
@@ -60,15 +62,15 @@ module interfaceController (
 	output RamWriteBit;
 	reg RamWriteBit;
 	// Data read from RAM
-	input [19:0] RamDat;
+	input [23:0] RamDat;
 	// split out write protect bits and blank indicators from data
 	wire [3:0] writeProtect = RamDat[23:20];
 	wire [3:0] blankInd = RamDat[19:16];
-	assign currentRow = RamDat [15:0];
+	assign currentRow = RamDat[15:0];
 	// RAM write buffer because we have to write a whole word back into RAM,
 	// but we only want to change 4 bits of the word
-	output [19:0] RamWriteBuf;
-	reg [19:0] RamWriteBuf;
+	output [23:0] RamWriteBuf;
+	reg [23:0] RamWriteBuf;
 
 
 	// sequential logic for moving through stored values and writing new ones
@@ -87,23 +89,26 @@ module interfaceController (
 			if (writeBit) begin
 				// modify relevant bits of buffer reg
 				case (currentNum)
-					'h0: ramWriteBuf[3:0] <= userNum;
-					'h2: ramWriteBuf[7:4] <= userNum;
-					'h4: ramWriteBuf[11:8] <= userNum;
-					'h8: ramWriteBuf[15:12] <= userNum;
-					default: ramDatReg <= ramDatReg;
+					'h0: RamWriteBuf[3:0] <= userNum;
+					'h2: RamWriteBuf[7:4] <= userNum;
+					'h4: RamWriteBuf[11:8] <= userNum;
+					'h8: RamWriteBuf[15:12] <= userNum;
+					default: RamWriteBuf <= RamWriteBuf;
 				endcase
 				// only write if current loc is not write protected
 				if (currentNum & !writeProtect) begin
 					RamWriteBit <= 1;
+					noWrite <= 0;
 					RamWriteBuf[19:16] <= blankInd & ~currentNum;
 				end
 				else begin
+					noWrite <= 1;
 					RamWriteBit <= 0;
 				end
 			end
 			else begin
 				RamWriteBit <= 0;
+				noWrite <= 0;
 				if (leftButton) begin
 					// can't use <</>> because we need rotation
 					currentNum <= {currentNum[2:0], currentNum[3]};
@@ -121,4 +126,4 @@ module interfaceController (
 			end
 		end
 	end
-
+endmodule
