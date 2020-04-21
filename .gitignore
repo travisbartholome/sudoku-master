@@ -1,6 +1,2 @@
 # Ignore generated ModelSim files
-sim*/work/*
-*.mpf
-*.wlf
-*.mti
-*.bak
+sim*/
