@@ -1,3 +1,8 @@
+// ECE 5367
+// Group: Sudoku Master
+// Module: Digit decoder
+// It's a 2-bit decoder
+
 module digitDecoder(digit, decodedValue);
   // 4-bit input number, which should be between decimal 1-4 inclusive
   input [3:0] digit;

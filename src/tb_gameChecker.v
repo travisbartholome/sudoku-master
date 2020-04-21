@@ -1,6 +1,10 @@
+// ECE 5367
+// Group: Sudoku Master
+// Module: Game checker test bench
+
 `timescale 1ns/100ps
 
-module gameChecker_tb();
+module tb_gameChecker();
   wire [1:0] RamAddr;
   reg [23:0] RamDat;
   wire gameComplete;
@@ -14,6 +18,7 @@ module gameChecker_tb();
     .CLK(CLK)
   );
 
+  // TODO: update this test bench to test the new gameChecker logic
   initial begin
     CLK <= 0;
     RamDat <= 24'h000000;

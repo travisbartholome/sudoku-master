@@ -1,3 +1,8 @@
+// ECE 5367
+// Group: Sudoku Master
+// Module: Group checker
+// Checks a group of 4 digits to see if each digit is unique and in the range [1,4]
+
 module groupChecker(groupDigits, groupCorrect);
   // 16-bit word of inputs
   // Every 4 bits represents one digit in a group of 4 digits

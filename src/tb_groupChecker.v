@@ -1,6 +1,10 @@
-`timescale 10ns/100ps
+// ECE 5367
+// Group: Sudoku Master
+// Module: Group checker test bench
 
-module groupChecker_tb();
+`timescale 1ns/100ps
+
+module tb_groupChecker();
   reg [15:0] groupDigits;
   wire groupCorrect;
 
