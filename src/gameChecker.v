@@ -34,44 +34,16 @@ module gameChecker(
   // Row digits
   wire [15:0] rowDigits = RamDat[15:0];
   
-  // Break off individual digits
-  wire [3:0] digit1 = rowDigits[3:0];
-  wire [3:0] digit2 = rowDigits[7:4];
-  wire [3:0] digit3 = rowDigits[11:8];
-  wire [3:0] digit4 = rowDigits[15:12];
-  
   // Bit indicating game completion
   output gameComplete;
   reg gameComplete;
   
   // ~~~~~ Game checker logic ~~~~~
 
-  reg [3:0] rowCorrect = 4'b0000;
-  
-  wire [3:0] digit1Decoded;
-  wire [3:0] digit2Decoded;
-  wire [3:0] digit3Decoded;
-  wire [3:0] digit4Decoded;
-  
-  digitDecoder digit1Check(digit1, digit1Decoded);
-  digitDecoder digit2Check(digit2, digit2Decoded);
-  digitDecoder digit3Check(digit3, digit3Decoded);
-  digitDecoder digit4Check(digit4, digit4Decoded);
-  
   // TODO: game checker logic
   
   // TODO: should this be an every-clock-cycle thing? or is that too much?
   always @ (posedge CLK) begin
-    rowCorrect = digit1Decoded | digit2Decoded | digit3Decoded | digit4Decoded;
     
-    // Check one row
-    if (rowCorrect == 4'b1111) begin
-      // Row is correct
-      // TODO: don't set the final output high after just checking one row
-      gameComplete <= 1'b1;
-    end
-    else begin
-      gameComplete <= 1'b0;
-    end
   end
 endmodule
