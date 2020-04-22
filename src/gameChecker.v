@@ -8,7 +8,7 @@
 // indicates whether the user has won/completed the game.
 
 module gameChecker(
-  // Memory inputs
+  // Memory I/O
   RamAddr, RamDat,
   
   // Output
