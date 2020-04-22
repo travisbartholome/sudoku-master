@@ -79,7 +79,7 @@ module gameChecker(
   groupChecker sqrChecker10(CLK, sqrDigits10, sqrCorrect10);
   groupChecker sqrChecker11(CLK, sqrDigits11, sqrCorrect11);
 
-  // TODO: should this be an every-clock-cycle thing? or is that too much?
+  // Run checker logic at each clock cycle
   always @ (posedge CLK) begin
     if (RST) begin
       // Reset
