@@ -3,7 +3,9 @@
 // Module: Group checker
 // Checks a group of 4 digits to see if each digit is unique and in the range [1,4]
 
-module groupChecker(groupDigits, groupCorrect);
+module groupChecker(CLK, groupDigits, groupCorrect);
+  input CLK;
+
   // 16-bit word of inputs
   // Every 4 bits represents one digit in a group of 4 digits
   // E.g., if we're checking the row with values [1 2 3 4],
@@ -35,7 +37,7 @@ module groupChecker(groupDigits, groupCorrect);
   digitDecoder digit3Check(digit3, digit3Decoded);
   digitDecoder digit4Check(digit4, digit4Decoded);
 
-  always @ (groupDigits) begin
+  always @ (posedge CLK) begin
     groupDecoded = digit1Decoded | digit2Decoded | digit3Decoded | digit4Decoded;
     
     // Check if all digits were present
