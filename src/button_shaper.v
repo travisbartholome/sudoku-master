@@ -22,30 +22,25 @@ module button_shaper(clk,reset,Btt_in,Btt_out);
 			if(Btt_in==1'b0)
 				begin
 				StateNext<=Pulse;
-				//Btt_out<=1'b1;
 				end
 			else if(Btt_in==1'b1)
 				begin
 				StateNext<=Initial;
-				//Btt_out<=1'b0;
 				end
 			end
 		Pulse:begin
 				Btt_out<=1'b1;
 				StateNext<=Wait;
-				//Btt_out<=1'b0;
 			end	
 		Wait:begin
 			Btt_out<=1'b0;
 			if(Btt_in==1'b1)
 				begin
 				StateNext<=Initial;
-				//Btt_out<=1'b0;
 				end
 			else if(Btt_in==1'b0)
 				begin
 				StateNext<=Wait;
-				//Btt_out<=1'b0;
 				end
 			end
 		default:begin
@@ -58,8 +53,7 @@ module button_shaper(clk,reset,Btt_in,Btt_out);
 		begin
 		if(reset==0)
 			begin
-			State<=Initial;
-			//Btt_out<=1'b0;	
+			State<=Initial;	
 			end
 		else
 			begin

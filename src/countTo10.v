@@ -14,7 +14,6 @@ module countTo10(clk,rst,enable,sigIn,sigOut);
 	always @(posedge clk)
 		begin
 		term<=10;
-		//term<=2;
 		if(rst==1'b0)
 			begin
 			sigOut<=0;

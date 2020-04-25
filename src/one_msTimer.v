@@ -13,7 +13,6 @@ module one_msTimer(clk,rst,enable,timeOut);
 	always @(posedge clk)
 		begin
 		term<=50000;
-		//term<=2;
 		if(rst==0)
 			begin
 			timeOut<=0;
@@ -38,7 +37,6 @@ module one_msTimer(clk,rst,enable,timeOut);
 					timeOut<=1;
 					count<=1;
 					end
-				//if(count==50000)
 				end
 			end
 		end
