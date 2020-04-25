@@ -65,9 +65,18 @@ module sudokuMasterTop (
 		.RamAddr(controllerRamAddr),
 		.RamDat(controllerRamDatIn),
 		.RamWriteBuf(controllerRamDatOut),
-		.RamWriteBit(controllerRamWriteBit)
+		.RamWriteBit(controllerRamWriteBit),
 		.CLK(CLK), .RST(RST));
 
+	// Game checker instat
+	wire [1:0] checkerRamAddr;
+	wire [23:0] checkerRamDat;
+	gameChecker checker (
+		.RamAddr(checkerRamAddr),
+		.RamDat(checkerRamDat),
+		.gameComplete(winInd),
+		.CLK(CLK),
+		.RST(RST));
 	
 	// RAM instat
 	sudokuRAM gameRAM (
@@ -79,8 +88,9 @@ module sudokuMasterTop (
 		.q_a(controllerRamDatIn),
 		// checker RAM connections
 		.wren_b(1'b0), // assuming checker doesn't need to write to RAM
-		.address_b(),
+		.address_b(checkerRamAddr),
 		.data_b(), // leave this unconnected unless you're writing to RAM
-		.q_b());
+		.q_b(checkerRamDat));
 
 
+endmodule
