@@ -106,5 +106,10 @@ module sudokuMasterTop (
         .count_tens(time_tens),
         .count_ones(time_ones),
     );
+		
+//digitBlinker dummy instant
+		wire isDigitSelected;
+		wire [6:0] digitInfo, digitOutput;
+digitBliker blinker(isDigitSelected,digitInfo,digitOutput,CLK,RST);
 
 endmodule
