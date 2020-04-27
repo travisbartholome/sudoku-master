@@ -92,5 +92,19 @@ module sudokuMasterTop (
 		.data_b(), // leave this unconnected unless you're writing to RAM
 		.q_b(checkerRamDat));
 
+    // Clock instat
+    wire [3:0] time_tens, time_ones;
+    wire borrow_end1, borrow_end2; // wire to ground
+    digitClock_2 gameClock (
+        .reconf(winInd),
+        .count_default1(0),
+        .count_default2(0),
+        .borrow_up(borrow_end1),
+        .borrow_dn(CLK),
+        .noborrow_up(1),
+        .noborrow_dn(borrow_end2),
+        .count_tens(time_tens),
+        .count_ones(time_ones),
+    );
 
 endmodule
