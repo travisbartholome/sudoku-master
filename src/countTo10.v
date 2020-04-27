@@ -1,52 +1,31 @@
-//ECE5440
-//Jon Genty 2849
-//countTo10
-//Module counts the pulses from sigIn and once the count
-//reaches 10 outputs a pulse to sigOut
+/*
+ECE 5440
+Nick Treviño - 2389
+countTo10
+this module outputs a pulse for every 10 input pulses
+*/
 
-module countTo10(clk,rst,enable,sigIn,sigOut);
-	input clk,rst,enable,sigIn;
-	output sigOut;
-	reg sigOut;
-	reg [3:0] count;
-	reg [3:0] term;
+module countTo10(inputPulse, outputPulse, rst);
+	input [0:0] inputPulse,rst;
 
-	always @(posedge clk)
-		begin
-		term<=10;
-		if(rst==1'b0)
-			begin
-			sigOut<=0;
-			count<=1;
-			end
-		else
-			begin
-			if(enable==0)
-				begin
-				sigOut<=0;
-				count<=1;
-				end
-			else
-				begin
-				if(sigIn==1'b1)
-					begin
-					if(count<(term))//if(count==10)
-						begin
-						sigOut<=0;
-						count<=count+1;
-						end
-					else if(count==(term))
-						begin
-						sigOut<=1;
-						count<=1;
-						end
-					end
-				else	
-					begin
-					sigOut<=0;
-					end
-				end
-				
-			end	
+	output [0:0] outputPulse;
+	reg    [0:0] outputPulse;
+
+	reg [4:0] cycleCount;
+
+	always@(inputPulse,rst) begin
+		if(rst == 1'b1) begin
+			cycleCount = 5'b00000;
+			outputPulse = 1'b0;
 		end
+		else
+			if(cycleCount < 2*2 - 1) begin	//replace 2 with 10
+				cycleCount = cycleCount + 5'b00001;
+				outputPulse = 1'b0;		
+			end
+			else begin
+				cycleCount = 5'b00000;
+				outputPulse = 1'b1;
+			end
+	end
 endmodule
