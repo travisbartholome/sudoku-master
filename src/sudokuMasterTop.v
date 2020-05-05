@@ -10,9 +10,9 @@ module sudokuMasterTop (
 	userNum, b_upButton, b_downButton, b_leftButton, b_rightButton, writeSwitch,
 
 	// outputs
-	userNumDisp, wpInd, rowDisp, winInd,
+	userNumDisp, wpInd, rowDisp, winInd,time_onesDisp,time_tensDisp,
 	//additional output
-	rowNums, currentNum,
+	rowNums, currentNum,time_ones,time_tens,
 	// system clock and reset
 	CLK, RST);
 
@@ -43,9 +43,12 @@ module sudokuMasterTop (
 	// win indicator
 	output winInd;
 
+	// 2 7-segs showing the timer 
+	output [6:0] time_onesDisp,time_tensDisp;
+
 	//-----additional output declaration for debugging purposes//
 	output [15:0] rowNums;
-	output [3:0] currentNum;
+	output [3:0] currentNum,time_ones,time_tens;
 	//-----end of additional output declaration----------------//
 
 	// button shaper instats
@@ -62,8 +65,8 @@ module sudokuMasterTop (
 	wire [3:0] currentNum;
 	// RAM connections for interface controller
 	wire [1:0] controllerRamAddr;
-       	wire [19:0] controllerRamDatIn;
-	wire [19:0] controllerRamDatOut;
+       	wire [23:0] controllerRamDatIn;
+	wire [23:0] controllerRamDatOut;
 	wire controllerRamWriteBit;	
 	interfaceController controller (
 		.userNum(userNum),
@@ -132,4 +135,7 @@ digitBlinker blinker(isDigitSelected,digitInfo,digitOutput,CLK,RST);
 	Seven_Seg rowDisp2_SS(rowNums[7:4],rowDisp[13:7]);
 	Seven_Seg rowDisp3_SS(rowNums[11:8],rowDisp[20:14]);
 	Seven_Seg rowDisp4_SS(rowNums[15:12],rowDisp[27:21]);
+
+	Seven_Seg onesDisp(time_ones,time_onesDisp);
+	Seven_Seg tensDisp(time_tens,time_tensDisp);
 endmodule

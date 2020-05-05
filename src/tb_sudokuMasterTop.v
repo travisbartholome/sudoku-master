@@ -3,7 +3,7 @@
 //
 // This module simulates the top-level module for the Sudoku Master
 // game.
-
+`timescale 1ns/1ns
 module tb_sudokuMasterTop ();
 	reg CLK, RST;	
 
@@ -21,8 +21,12 @@ module tb_sudokuMasterTop ();
 
 	wire winInd;
 
-	wire [15:0] rowNums;
-	wire [3:0] currentNum;
+	wire [6:0] time_onesDisp,time_tensDisp;	
 
-	sudokuMasterTop DUT_sudokuMasterTop(userNum,upButton,downButton,leftButton,rightButton,writeSwitch,userNumDisp,wpInd,rowDisp,winInd,rowNums,currentNum,CLK,RST);
+	wire [15:0] rowNums;
+	wire [3:0] currentNum,time_ones,time_tens;
+
+	sudokuMasterTop DUT_sudokuMasterTop(userNum,upButton,downButton,leftButton,rightButton,writeSwitch,userNumDisp,wpInd,rowDisp,winInd,time_onesDisp,time_tensDisp,rowNums,currentNum,time_ones,time_tens,CLK,RST);
+
+
 endmodule
