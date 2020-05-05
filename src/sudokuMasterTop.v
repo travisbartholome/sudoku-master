@@ -123,18 +123,20 @@ module sudokuMasterTop (
         .count_ones(time_ones)
     );
 		
-//digitBlinker dummy instant
-		wire isDigitSelected;
-		wire [6:0] digitInfo, digitOutput;
-digitBlinker blinker(isDigitSelected,digitInfo,digitOutput,CLK,RST);
+	//digitBlinker instantiations
+	wire [27:0] rowDispTemp;	//signal from decoder to blinkers
+	digitBlinker blinker1(currentNum[0],rowDispTemp[6:0],rowDisp[6:0],CLK,RST);
+	digitBlinker blinker2(currentNum[1],rowDispTemp[13:7],rowDisp[13:7],CLK,RST);
+	digitBlinker blinker3(currentNum[2],rowDispTemp[20:14],rowDisp[20:14],CLK,RST);
+	digitBlinker blinker4(currentNum[3],rowDispTemp[27:21],rowDisp[27:21],CLK,RST);
 
 	// seven segment decoder instantiations
 	Seven_Seg userNumDisp_SS(currentNum,userNumDisp);
 
-	Seven_Seg rowDisp1_SS(rowNums[3:0],rowDisp[6:0]);
-	Seven_Seg rowDisp2_SS(rowNums[7:4],rowDisp[13:7]);
-	Seven_Seg rowDisp3_SS(rowNums[11:8],rowDisp[20:14]);
-	Seven_Seg rowDisp4_SS(rowNums[15:12],rowDisp[27:21]);
+	Seven_Seg rowDisp1_SS(rowNums[3:0],rowDispTemp[6:0]);
+	Seven_Seg rowDisp2_SS(rowNums[7:4],rowDispTemp[13:7]);
+	Seven_Seg rowDisp3_SS(rowNums[11:8],rowDispTemp[20:14]);
+	Seven_Seg rowDisp4_SS(rowNums[15:12],rowDispTemp[27:21]);
 
 	Seven_Seg onesDisp(time_ones,time_onesDisp);
 	Seven_Seg tensDisp(time_tens,time_tensDisp);
