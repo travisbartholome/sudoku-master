@@ -53,6 +53,7 @@ module sudokuMasterTop (
 
 	//button shaper instats for navigation buttons
 	// internal signals for the interface controller //
+
 	wire upButton,downButton,leftButton,rightButton;
 	button_shaper upButtonShaper(
 		.clk(CLK),
