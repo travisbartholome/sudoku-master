@@ -51,13 +51,32 @@ module sudokuMasterTop (
 	output [3:0] currentNum,time_ones,time_tens;
 	//-----end of additional output declaration----------------//
 
-	// button shaper instats
+	//button shaper instats for navigation buttons
 	// internal signals for the interface controller //
-	wire upButton, downButton, leftButton, rightButton;
-	button_shaper upBtt_shaper(CLK,RST,b_upButton,upButton);
-	button_shaper downBtt_shaper(CLK,RST,b_downButton,downButton);
-	button_shaper leftBtt_shaper(CLK,RST,b_leftButton,leftButton);
-	button_shaper rightBtt_shaper(CLK,RST,b_rightButton,rightButton);
+	wire upButton,downButton,leftButton,rightButton;
+	button_shaper upButtonShaper(
+		.clk(CLK),
+		.reset(RST),
+		.Btt_in(b_upButton),
+		.Btt_out(upButton));
+
+	button_shaper downButtonShaper(
+		.clk(CLK),
+		.reset(RST),
+		.Btt_in(b_downButton),
+		.Btt_out(downButton));
+
+	button_shaper leftButtonShaper(
+		.clk(CLK),
+		.reset(RST),
+		.Btt_in(b_leftButton),
+		.Btt_out(leftButton));
+
+	button_shaper rightButtonShaper(
+		.clk(CLK),
+		.reset(RST),
+		.Btt_in(b_rightButton),
+		.Btt_out(rightButton));
 
 	// interface controller instat
 	// hex inputs to 7-seg decoders
