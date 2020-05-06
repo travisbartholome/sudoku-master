@@ -10,8 +10,9 @@ module sudokuMasterTop (
 	userNum, b_upButton, b_downButton, b_leftButton, b_rightButton, writeSwitch,
 
 	// outputs
-	userNumDisp, wpInd, rowDisp, winInd,
-
+	userNumDisp, wpInd, rowDisp, winInd,time_onesDisp,time_tensDisp,
+	//additional output
+	rowNums, currentNum,time_ones,time_tens,
 	// system clock and reset
 	CLK, RST);
 
@@ -42,7 +43,17 @@ module sudokuMasterTop (
 	// win indicator
 	output winInd;
 
+	// 2 7-segs showing the timer 
+	output [6:0] time_onesDisp,time_tensDisp;
+
+	//-----additional output declaration for debugging purposes//
+	output [15:0] rowNums;
+	output [3:0] currentNum,time_ones,time_tens;
+	//-----end of additional output declaration----------------//
+
 	//button shaper instats for navigation buttons
+	// internal signals for the interface controller //
+
 	wire upButton,downButton,leftButton,rightButton;
 	button_shaper upButtonShaper(
 		.clk(CLK),
@@ -74,8 +85,8 @@ module sudokuMasterTop (
 	wire [3:0] currentNum;
 	// RAM connections for interface controller
 	wire [1:0] controllerRamAddr;
-       	wire [19:0] controllerRamDatIn;
-	wire [19:0] controllerRamDatOut;
+       	wire [23:0] controllerRamDatIn;
+	wire [23:0] controllerRamDatOut;
 	wire controllerRamWriteBit;	
 	interfaceController controller (
 		.userNum(userNum),
@@ -117,47 +128,39 @@ module sudokuMasterTop (
 		.data_b(), // leave this unconnected unless you're writing to RAM
 		.q_b(checkerRamDat));
 
-
-	// Seven Segment Decoder instats
-	Seven_Seg userNumLED (
-		.Seg_in(userNum),
-		.Seg_out(userNumDisp));
-
-  // Clock instat
-  wire [3:0] time_tens, time_ones;
-  wire borrow_end1, borrow_end2; // wire to ground
-  digitClock_2 gameClock (
-    .reconf(winInd),
-    .count_default1(0),
-    .count_default2(0),
-    .borrow_up(borrow_end1),
-    .borrow_dn(CLK),
-    .noborrow_up(1),
-    .noborrow_dn(borrow_end2),
-    .count_tens(time_tens),
-    .count_ones(time_ones)
-  );
+    wire gameStart,timerPulse,winInd;
+    GameBegin GameBeginSignal(CLK,RST,winInd,upButton,downButton,leftButton,rightButton,writeSwitch,gameStart);
+    oneSecTimer oneSecPulse(gameStart,CLK,RST,timerPulse);
+    // Clock instat
+    wire [3:0] time_tens, time_ones;
+    wire borrow_end1, borrow_end2; // wire to ground
+    digitClock_2 gameClock (
+        .reconf(RST),
+        .count_default1(0),
+        .count_default2(0),
+        .borrow_up(borrow_end1),
+        .borrow_dn(timerPulse),
+        .noborrow_up(1),
+        .noborrow_dn(borrow_end2),
+        .count_tens(time_tens),
+        .count_ones(time_ones)
+    );
 		
-  //digitBlinker dummy instant
-  wire isDigitSelected;
-  wire [6:0] digitInfo, digitOutput;
-  digitBliker blinker(isDigitSelected,digitInfo,digitOutput,CLK,RST);
+	//digitBlinker instantiations
+	wire [27:0] rowDispTemp;	//signal from decoder to blinkers
+	digitBlinker blinker1(currentNum[0],rowDispTemp[6:0],rowDisp[6:0],CLK,RST);
+	digitBlinker blinker2(currentNum[1],rowDispTemp[13:7],rowDisp[13:7],CLK,RST);
+	digitBlinker blinker3(currentNum[2],rowDispTemp[20:14],rowDisp[20:14],CLK,RST);
+	digitBlinker blinker4(currentNum[3],rowDispTemp[27:21],rowDisp[27:21],CLK,RST);
 
-	Seven_Seg NumLED1 (
-		.Seg_in(rowNums[3:0]),
-		.Seg_out(rowDisp[6:0]));
+	// seven segment decoder instantiations
+	Seven_Seg userNumDisp_SS(userNum,userNumDisp);
 
-	Seven_Seg NumLED2 (
-		.Seg_in(rowNums[7:4]),
-		.Seg_out(rowDisp[13:7]));
+	Seven_Seg rowDisp1_SS(rowNums[3:0],rowDispTemp[6:0]);
+	Seven_Seg rowDisp2_SS(rowNums[7:4],rowDispTemp[13:7]);
+	Seven_Seg rowDisp3_SS(rowNums[11:8],rowDispTemp[20:14]);
+	Seven_Seg rowDisp4_SS(rowNums[15:12],rowDispTemp[27:21]);
 
-	Seven_Seg NumLED3 (
-		.Seg_in(rowNums[11:8]),
-		.Seg_out(rowDisp[20:14]));
-
-	Seven_Seg NumLED4 (
-		.Seg_in(rowNums[15:12]),
-		.Seg_out(rowDisp[27:21]));
-	
-	
+	Seven_Seg onesDisp(time_ones,time_onesDisp);
+	Seven_Seg tensDisp(time_tens,time_tensDisp);
 endmodule

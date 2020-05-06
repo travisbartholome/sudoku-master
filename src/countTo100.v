@@ -1,6 +1,6 @@
 /*
-ECE 5440
-Nick Treviño - 2389
+//ECE5367
+//Group: Sudoku Master
 countTo100
 this module outputs a pulse for every 100 input pulses
 */
@@ -19,7 +19,7 @@ module countTo100(inputPulse, outputPulse, rst);
 			outputPulse = 1'b0;
 		end
 		else
-			if(cycleCount < 2*3 - 1) begin	//replace 3 with 100
+			if(cycleCount < 2*(2) - 1) begin	//replace 2 with 100
 				cycleCount = cycleCount + 8'b00000001;
 				outputPulse = 1'b0;		
 			end

@@ -1,5 +1,5 @@
-// ECE5440
-// Author: Stefan Bucur 3153
+//ECE5367
+//Group: Sudoku Master
 // Module: digitClock_2
 // Description: two-digit timer for use in an FPGA game.
 /*  Visual showing how the timers chain together.

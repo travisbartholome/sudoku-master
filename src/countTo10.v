@@ -1,6 +1,6 @@
 /*
-ECE 5440
-Nick Treviño - 2389
+//ECE5367
+//Group: Sudoku Master
 countTo10
 this module outputs a pulse for every 10 input pulses
 */
@@ -19,7 +19,7 @@ module countTo10(inputPulse, outputPulse, rst);
 			outputPulse = 1'b0;
 		end
 		else
-			if(cycleCount < 2*2 - 1) begin	//replace 2 with 10
+			if(cycleCount < 2*(2) - 1) begin	//replace 2 with 10
 				cycleCount = cycleCount + 5'b00001;
 				outputPulse = 1'b0;		
 			end

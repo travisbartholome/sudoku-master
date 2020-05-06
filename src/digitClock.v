@@ -1,5 +1,5 @@
-// ECE5440
-// Author: Stefan Bucur 3153
+//ECE5367
+//Group: Sudoku Master
 // Module: digitClock
 // Description: scalable digit timer for the FPGA game.
 //  timer talks to adjacent digits to determine next value

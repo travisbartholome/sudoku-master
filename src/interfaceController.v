@@ -89,14 +89,14 @@ module interfaceController (
 			if (writeBit) begin
 				// modify relevant bits of buffer reg
 				case (currentNum)
-					'h0: RamWriteBuf[3:0] <= userNum;
+					'h1: RamWriteBuf[3:0] <= userNum;
 					'h2: RamWriteBuf[7:4] <= userNum;
 					'h4: RamWriteBuf[11:8] <= userNum;
 					'h8: RamWriteBuf[15:12] <= userNum;
 					default: RamWriteBuf <= RamWriteBuf;
 				endcase
 				// only write if current loc is not write protected
-				if (currentNum & !writeProtect) begin
+				if (currentNum != writeProtect) begin
 					RamWriteBit <= 1;
 					noWrite <= 0;
 					RamWriteBuf[19:16] <= blankInd & ~currentNum;
@@ -110,11 +110,21 @@ module interfaceController (
 				RamWriteBit <= 0;
 				noWrite <= 0;
 				if (leftButton) begin
-					// can't use <</>> because we need rotation
-					currentNum <= {currentNum[2:0], currentNum[3]};
+					if(currentNum==4'b0000) begin
+						currentNum<=4'b0001;
+					end
+					else begin
+						// can't use <</>> because we need rotation
+						currentNum <= {currentNum[2:0], currentNum[3]};
+					end
 				end
 				else if (rightButton) begin
-					currentNum <= {currentNum[0], currentNum[3:1]};
+					if(currentNum==4'b0000) begin
+						currentNum<=4'b0001;
+					end
+					else begin
+						currentNum <= {currentNum[0], currentNum[3:1]};
+					end
 				end
 				// addition & subtraction automatically wrap around
 				else if (upButton) begin
