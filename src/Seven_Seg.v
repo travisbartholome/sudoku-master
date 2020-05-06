@@ -1,5 +1,5 @@
-//ECE5440
-//Jon Genty 2849
+//ECE5367
+//Group: Sudoku Master
 //Seven_Seg
 //Module converts a 4-bit binary input (Seg_in) 
 //into a 7-bit binary output (Seg_out) on a 

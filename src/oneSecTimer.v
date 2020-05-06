@@ -1,6 +1,6 @@
 /*
-ECE 5440
-Nick Treviño - 2389
+//ECE5367
+//Group: Sudoku Master
 oneSecTimer
 this module is the top level module for the one-second counting part of the game
 */

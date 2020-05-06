@@ -1,3 +1,8 @@
+//ECE5367
+//Group: Sudoku Master
+//digitBlinker
+//This module facilitates the blinking of the selected digit on the seven segment LED
+
 module digitBlinker(isDigitSelected,digitInfo,digitOutput,clk,rst);
 	input isDigitSelected, clk, rst;
 	input [6:0] digitInfo;

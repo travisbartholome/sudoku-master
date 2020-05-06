@@ -1,3 +1,8 @@
+//ECE5367
+//Group: Sudoku Master
+//outputLoadRegister
+//This module allows the user to turn off the seven-segemnt LEDs based on internal signals
+
 module outputLoadRegister(load,blinkPulse,in,out);
 	input load, blinkPulse;
 	input [6:0] in;

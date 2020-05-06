@@ -1,5 +1,5 @@
-//ECE5440
-//Jon Genty 2849
+//ECE5367
+//Group: Sudoku Master
 //Seven_Seg_tb
 //Module tests the Seven_Seg module
 

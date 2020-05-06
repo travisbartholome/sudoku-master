@@ -108,15 +108,18 @@ module sudokuMasterTop (
 		.data_b(), // leave this unconnected unless you're writing to RAM
 		.q_b(checkerRamDat));
 
+    wire gameStart,timerPulse,winInd;
+    GameBegin GameBeginSignal(CLK,RST,winInd,upButton,downButton,leftButton,rightButton,writeSwitch,gameStart);
+    oneSecTimer oneSecPulse(gameStart,CLK,RST,timerPulse);
     // Clock instat
     wire [3:0] time_tens, time_ones;
     wire borrow_end1, borrow_end2; // wire to ground
     digitClock_2 gameClock (
-        .reconf(winInd),
+        .reconf(RST),
         .count_default1(0),
         .count_default2(0),
         .borrow_up(borrow_end1),
-        .borrow_dn(CLK),
+        .borrow_dn(timerPulse),
         .noborrow_up(1),
         .noborrow_dn(borrow_end2),
         .count_tens(time_tens),
@@ -131,7 +134,7 @@ module sudokuMasterTop (
 	digitBlinker blinker4(currentNum[3],rowDispTemp[27:21],rowDisp[27:21],CLK,RST);
 
 	// seven segment decoder instantiations
-	Seven_Seg userNumDisp_SS(currentNum,userNumDisp);
+	Seven_Seg userNumDisp_SS(userNum,userNumDisp);
 
 	Seven_Seg rowDisp1_SS(rowNums[3:0],rowDispTemp[6:0]);
 	Seven_Seg rowDisp2_SS(rowNums[7:4],rowDispTemp[13:7]);

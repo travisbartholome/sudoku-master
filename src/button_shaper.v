@@ -1,5 +1,5 @@
-//ECE5440
-//Jon Genty 2849
+//ECE5367
+//Group: Sudoku Master
 //button_shaper
 //Module uses a finite state machine to convert a long button press
 //to a single pulse.
@@ -51,7 +51,7 @@ module button_shaper(clk,reset,Btt_in,Btt_out);
 		end
 	always @(posedge clk)
 		begin
-		if(reset==0)
+		if(reset==1)
 			begin
 			State<=Initial;	
 			end

@@ -28,5 +28,117 @@ module tb_sudokuMasterTop ();
 
 	sudokuMasterTop DUT_sudokuMasterTop(userNum,upButton,downButton,leftButton,rightButton,writeSwitch,userNumDisp,wpInd,rowDisp,winInd,time_onesDisp,time_tensDisp,rowNums,currentNum,time_ones,time_tens,CLK,RST);
 
+	initial
+		begin
+		CLK<=0;
+		RST<=1;
+		userNum<=4'b0000;
+		upButton<=1'b0;
+		downButton<=1'b0;
+		leftButton<=1'b0;
+		rightButton<=1'b0;
+		writeSwitch<=1'b0;
+		end
+
+	always
+		begin
+		#10 CLK<=0;
+		#10 CLK<=1;
+		end
+
+	initial
+		begin
+		#25 RST<=0;
+		#40
+		#20 userNum<=4'b0100;          
+		#20 writeSwitch<=1'b1;
+		#20 writeSwitch<=1'b0;
+		#40
+		#20 downButton<=1;		    
+		#20 downButton<=0;
+		#40
+		#20 userNum<=4'b0011;
+		#20 writeSwitch<=1'b1;			
+		#20 writeSwitch<=1'b0;
+		#40
+		#20 leftButton<=1;
+		#20 leftButton<=0;
+		#40
+		#20 userNum<=4'b0010;
+		#20 writeSwitch<=1'b1;
+		#20 writeSwitch<=1'b0;
+		#40
+		#20 leftButton<=1;
+		#20 leftButton<=0;
+		#40
+		#20 userNum<=4'b0001;
+		#20 writeSwitch<=1'b1;
+		#20 writeSwitch<=1'b0;
+		#40
+		#20 upButton<=1;
+		#20 upButton<=0;
+		#40
+		#20 writeSwitch<=1'b1;
+		#20 userNum<=4'b0010;          
+		#20 writeSwitch<=1'b0;
+		#40
+		#20 leftButton<=1;
+		#20 leftButton<=0;
+		#40
+		#20 writeSwitch<=1'b1;
+		#20 userNum<=4'b0011;          
+		#20 writeSwitch<=1'b0;
+		#40
+		#20 downButton<=1;
+		#20 downButton<=0;
+		#40
+		#20 downButton<=1;
+		#20 downButton<=0;
+		#40
+		#20 userNum<=4'b0001;          
+		#20 writeSwitch<=1'b1;
+		#20 writeSwitch<=1'b0;
+		#40
+		#20 downButton<=1;
+		#20 downButton<=0;
+		#40
+		#20 writeSwitch<=1'b1;
+		#20 userNum<=4'b0010;          
+		#20 writeSwitch<=1'b0;
+		#40
+		#20 rightButton<=1;
+		#20 rightButton<=0;
+		#40
+		#20 rightButton<=1;
+		#20 rightButton<=0;
+		#40
+		#20 writeSwitch<=1'b1;
+		#20 userNum<=4'b0100;          
+		#20 writeSwitch<=1'b0;
+		#40
+		#20 rightButton<=1;
+		#20 rightButton<=0;
+		#40
+		#20 writeSwitch<=1'b1;
+		#20 userNum<=4'b0001;          
+		#20 writeSwitch<=1'b0;
+		#40
+		#20 upButton<=1;
+		#20 upButton<=0;
+		#40
+		#20 leftButton<=1;
+		#20 leftButton<=0;
+		#40
+		#20 writeSwitch<=1'b1;
+		#20 userNum<=4'b0011;          
+		#20 writeSwitch<=1'b0;
+		#40
+		#20 leftButton<=1;
+		#20 leftButton<=0;
+		#40
+		#20 writeSwitch<=1'b1;
+		#20 userNum<=4'b0100;          
+		#20 writeSwitch<=1'b0;
+		end
 
 endmodule

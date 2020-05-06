@@ -1,5 +1,5 @@
-//ECE5440
-//Jon Genty 2849
+//ECE5367
+//Group: Sudoku Master
 //button_shaper_tb
 //Module tests the button_shaper module
 

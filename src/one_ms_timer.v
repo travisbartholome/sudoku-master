@@ -1,6 +1,6 @@
 /*
-ECE 5440
-Nick Treviño - 2389
+//ECE5367
+//Group: Sudoku Master
 one_ms_timer
 this module outputs a pulse every 50,000 clock cycles if enable is 1
 */
@@ -19,7 +19,7 @@ module one_ms_timer(enable, one_ms_pulse, clk, rst);
 			one_ms_pulse = 1'b0;
 		end
 		else
-			if(cycleCount < 4 - 1) begin	//replace 4 with 50000
+			if(cycleCount < (2) - 1) begin	//replace 2 with 50000
 				cycleCount = cycleCount + 16'b0000000000000001;
 				one_ms_pulse = 1'b0;		
 			end
