@@ -8,7 +8,7 @@ module GameBegin(CLK,RST,WinSig,upButton,downButton,leftButton,rightButton,write
 	output gameStart;
 	reg gameStart;
 
-	always @ (CLK,upButton,downButton,leftButton,rightButton,writeSwitch)
+	always @ (posedge WinSig,upButton,downButton,leftButton,rightButton,writeSwitch)
 		begin
 		if(RST==1'b1)
 			begin
