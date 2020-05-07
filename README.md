@@ -2,6 +2,17 @@
 
 Final project for ECE 5367 at UH.
 
+## Simulation
+
+Simulations are intended to be done with ModelSim.
+
+To get the RAM module to work, you'll need to add two libraries before starting the simulation.
+This is done under the "Libraries" tab in the "Start Simulation" popup window.
+Add `altera_mf_ver` and `altera_mf` (in that order, specifically).
+
+Also, make sure that a copy of the `sudoku4x4.mif` file is included in your simulation
+directory (usually one level above the /work directory).
+
 ## Git workflow
 
 Typical Git workflow when starting to develop a feature:
